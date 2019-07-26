@@ -145,8 +145,14 @@ function FeldClass(breit, hoch, anzahl){
 		}
 	}
 	
-	this.showFeld = function(obj){
+	this.showFeld = function(obj, duechgang = 0){
 		
+		if(duechgang > 200){
+			setTimeout(function(){
+				self.showFeld(obj);
+			}, 1);
+			return;
+		}
 		
 		if(obj.showed || obj.flaged == true)
 			return;
@@ -175,7 +181,8 @@ function FeldClass(breit, hoch, anzahl){
 		
 			for(var i=0; i < obj.Nachbar.length; i++){
 				
-				self.showFeld(obj.Nachbar[i]);
+				if(!obj.Nachbar[i].showed)
+					self.showFeld(obj.Nachbar[i], duechgang++);
 				
 			}
 		}
@@ -240,7 +247,7 @@ var ctx = canvas.getContext('2d');
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-var feld = new FeldClass(60, 30, 300);
+var feld = new FeldClass(72, 47, 400);
 
 
 
